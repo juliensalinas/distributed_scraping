@@ -1,0 +1,14 @@
+{% load humanize %}
+{% load staticfiles %}
+
+{% for liste in listes_zippees%}
+	{% if "erreur" not in liste.1%}
+		{{liste.0}} en fonction du temps</br>
+		<div style="width:100%" id="jqplot-{{forloop.counter}}"></div>
+	{% endif %}
+{%endfor%}
+
+{% block js %}
+	{% include "plateforme/js_ajax_graphiques.html" %}
+{% endblock %}	
+

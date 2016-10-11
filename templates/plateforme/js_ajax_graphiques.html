@@ -1,0 +1,76 @@
+{% load staticfiles %}
+
+<script type="text/javascript" src="{% static 'plateforme/js/jquery.jqplot.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'plateforme/js/jqplot.pieRenderer.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'plateforme/js/jqplot.barRenderer.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'plateforme/js/jqplot.categoryAxisRenderer.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'plateforme/js/jqplot.pointLabels.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'plateforme/js/jqplot.canvasAxisLabelRenderer.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'plateforme/js/jqplot.canvasAxisTickRenderer.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'plateforme/js/jqplot.canvasTextRenderer.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'plateforme/js/jqplot.highlighter.min.js' %}"></script>
+
+<script type="text/javascript">
+{%comment%}
+	$(document).ready(function(){
+	
+		$.jqplot('jqplot-test',  [[[1, 2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]],
+		{ title:'Exponential Line',
+		  axes:{yaxis:{min:-10, max:240}},
+		  series:[{color:'#5FAB78'}]
+		});
+		
+	});
+{%endcomment%}
+
+{% for liste in listes_zippees%}
+	{% if "erreur" not in liste.1%}
+	
+		$(document).ready(function(){
+
+			var plot = $.jqplot ('jqplot-{{forloop.counter}}', [{{liste.1|safe}}], {
+
+				highlighter: {
+				show: true,
+				showMarker: true,
+				tooltipAxes: 'y',
+				yvalues: 1,
+				formatString: '<table><tr><td>Valeur exacte:</td><td>%s€</td></tr></table>'
+				},
+
+				seriesDefaults: {
+					breakOnNull: true,
+					rendererOptions: {
+					smooth: false
+					}
+				},
+				axesDefaults: {
+					tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+					tickOptions: {
+					  angle: -30,
+					  fontSize: '10pt'
+					}
+				},
+				axes: {
+
+					xaxis: {
+						renderer: $.jqplot.CategoryAxisRenderer,
+						label: "Date",
+						ticks: {{liste.2|safe}},
+						pad: 0,
+						
+					},
+				},
+			});
+		});
+		
+	{% endif %}
+{%endfor%}
+
+</script>
+
+
+
+<script type="text/javascript">
+	$("#preloader").hide();
+</script>

@@ -1,0 +1,17 @@
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+#preloader{
+	display:none;
+}
+
+#afficher_ou_cacher{
+	display:none;
+}
+
+#bouton_telechargement{
+	display:none;
+}

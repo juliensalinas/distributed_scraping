@@ -1,0 +1,53 @@
+{% load staticfiles %}
+
+<script type="text/javascript" src="{% static 'commun/js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'plateforme/js/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'plateforme/js/datepicker-fr.js' %}"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+	$("#afficher_ou_cacher").hide();
+	$("#preloader").show();
+	var id = '';
+	$( "#conteneur_ajax_tableau" ).load('{% url 'plateforme.views.ajax_tableau'%}?id='+id);
+	
+});
+$(document).on("change","#liste_id_libelle_scrapers", function () {
+
+	$("#afficher_ou_cacher").hide();
+	$("#preloader").show();
+	var id = $(this).val();
+	$( "#conteneur_ajax_tableau" ).load('{% url 'plateforme.views.ajax_tableau'%}?id='+id);
+
+});
+$(function() {
+
+	$( "#datepicker" ).datepicker(
+		{onSelect: function() {$("#bouton_telechargement").show();}},
+		$.datepicker.regional[ "fr" ]
+	);
+	
+});
+$(function() {
+
+	var aucune_donnee = "{{ aucune_donnee }}"; 
+	if (aucune_donnee == "1") {
+		alert('Aucune donnée trouvée après cette date...');
+	}
+	
+});
+$(function() {
+
+	$( "#onglets" ).tabs({
+		beforeLoad: function( event, ui ) {
+			$("#preloader").show();
+			ui.jqXHR.fail(function() {
+				ui.panel.html(
+				"L'onglet n'a pas pu être chargé. Pouvez-vous vérifier que votre connexion internet fonctionne puis réessayer ?" );
+			});
+		}
+	});
+});
+
+</script>

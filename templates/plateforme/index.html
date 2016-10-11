@@ -1,0 +1,65 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Soupeo - Plateforme</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <link rel="shortcut icon" href="{% static 'vitrine/images/favicon.ico' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'plateforme/css/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'plateforme/css/jquery.dataTables.min.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'plateforme/css/jquery-ui.min.css' %}"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'plateforme/css/jquery.jqplot.css' %}" />	
+
+</head>
+
+<body>
+
+<select id="liste_id_libelle_scrapers">
+{% for scraper in liste_id_libelle_scrapers %}
+	<option value="{{scraper.0}}">{{scraper.1}}</option>
+{% endfor %}
+</select> 
+
+</br></br>
+
+
+<div id="onglets">
+	<ul>
+		<li><a href="#conteneur_ajax_tableau">Données</a></li>
+		<li><a href="{% url 'plateforme.views.ajax_graphiques'%}">Analyses graphiques</a></li>
+	</ul>
+	<div id="afficher_ou_cacher">
+		<div id="conteneur_ajax_tableau"></div>
+	</div>
+	<div id="preloader">
+		<img src="{% static 'plateforme/images/preloader.gif' %}" />
+	</div>	
+</div>
+
+</br></br>
+
+<!-- <button id="telechargement_tableau" type="button">Télécharger</button> 
+ -->
+ <p>
+ <form action="{% url "plateforme.views.telechargement_tableau_xls" %}" method="post">{% csrf_token %}
+		Date:
+		<span class="erreur"> * {% if form.date.errors %}</br>{% for error in form.date.errors %}{{ error|escape }}{% endfor %}{% endif %}</span> {{ form.date }} </br>
+		<div id="bouton_telechargement">
+			Télécharger les données récupérées après cette date : <input type="submit" value="Télécharger">
+		</div>
+</form>
+</p>
+
+</br></br>
+
+
+{% block js %}
+	{% include "plateforme/js_index.html" %}
+{% endblock %}		
+
+</body>
+
+</html>

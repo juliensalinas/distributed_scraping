@@ -1,0 +1,13 @@
+{% load staticfiles %}
+
+<script type="text/javascript" src="{% static 'plateforme/js/jquery.dataTables.min.js' %}"></script>	
+	
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $('#tableau').DataTable({"autoWidth":false});
+	$('#afficher_ou_cacher').show();
+	$("#preloader").hide();
+	
+});
+</script>

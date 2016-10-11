@@ -1,0 +1,53 @@
+{% load humanize %}
+{% load staticfiles %}
+
+<table id="tableau" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				{% for titre in liste_titres %}
+					<th>{{ titre }}</th>
+				{% endfor %}		
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				{% for titre in liste_titres %}
+					<th>{{ titre }}</th>
+				{% endfor %}	
+			</tr>
+		</tfoot>
+		<tbody>
+			{% for ligne in liste_donnees_scrapees %}
+				
+				<tr {% if ligne.0 %}class="Nouvelle_donnee"{% endif %}>
+				
+					{% for donnee in ligne %}
+					
+						{% if not forloop.first%}
+						
+							{% if donnee.0 == "url" %}
+								<td> <a href="{{donnee.1}}" target="_blank">Lien</a></td>
+							{% elif donnee.0 == "euros" %}
+								<td>{{ donnee.1|intcomma}} €</td>
+							{% elif donnee.0 == "nb_mois" %}
+								<td>{{ donnee.1|intcomma}} mois</td>
+							{% elif donnee.0 == "pourcentage" %}
+								<td>{{ donnee.1|intcomma}} %</td>
+							{% elif donnee.0 == "date" %}
+								<td>{{ donnee.1|date:"l j F Y \à G\hi"}}</td>
+							{% else %}
+								<td>{{ donnee.1|intcomma}}</td>
+							{% endif %}
+							
+						{% endif %}
+						
+					{% endfor %}			
+				</tr>
+			{% endfor %}
+		</tbody>
+</table>
+
+{% block js %}
+	{% include "plateforme/js_ajax_tableau.html" %}
+{% endblock %}	
+
