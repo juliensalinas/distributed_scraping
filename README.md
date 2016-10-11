@@ -8,5 +8,5 @@ JQuery library used.
 Customers are informed by email of the new data found by the scraper and can receive data packed in a CSV attached file or simply in HTML within the email.
 Parsing is achieved thanks to the Beautifulsoup library.
 
-This project is not complete. Some important part are still missing.
+This project is not complete. Some important parts are still missing.
 
